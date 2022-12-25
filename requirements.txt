@@ -1,0 +1,5 @@
+pymongo
+requests_oauthlib
+tqdm
+pandas
+jupyter

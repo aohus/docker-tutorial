@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source envs
+# jupyter setting file
+JUPYTER_CONFIG=/root/.jupyter/jupyter_notebook_config.py
+
+# login pw 
+PASSWORK=`python -c 'from notebook.auth import passwd;print(passwd())'`
+mkdir -p /root/.jupyter
+echo "c.NotebookApp.password = '$PASSWORD'" > $JUPYTER_CONFIG
+
+# run jupyter notebook
+jupyter notebook --no-browser --allow-root --ip 0.0.0.0 \
+    --notebook-dir $NOTEBOOK_DIR
