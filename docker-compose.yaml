@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    container_name: 'pipeline-mongo'
+    hostname: mongodb
+    restart: always
+    environment:
+      - 'MONGO_INITDB_ROOT_USERNAME=MONGOADMINUSERNAME'
+      - 'MONGO_INITDB_ROOT_PASSWORD=MONGOADMINPASSWORD'
+      - 'MONGO_INITDB_DATABASE=admin'
+    volumes:
+      - mongo:/data
+    ports:
+      - 27017:27017
+
+  jupyter:
+    container_name: 'pipeline-jupyter'
+    env_file:
+      - jupyter.dev.env
+    build:
+      context: .
+      dockerfile: ./docker/jupyter.dev.dockerfile
+      args:
+        - JUPYTER_PASSWORD=${JUPYTER_PASSWORD}
+    ports:
+      - 8888:8888
+
+  spark:
+    image: bitnami/spark:3.0.1
+    container_name: 'pipeline-spark'
+    user: root # Run container as root container: https://docs.bitnami.com/tutorials/work-with-non-root-containers/
+    hostname: spark
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - '8080:8080'
+      - '7077:7077'
+volumes:
+  mongo:

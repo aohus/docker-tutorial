@@ -1,5 +1,5 @@
 #!/bin/bash
-PROJECT_PATH=/Users/aohus/workspaces/github/streaming-data-flow/src
+PROJECT_PATH=$1
 docker run --rm -it \
     --publish 8888:8888 \
     --volume $PROJECT_PATH:/app/src \
