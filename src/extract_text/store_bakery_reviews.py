@@ -5,7 +5,7 @@ import pandas as pd
 import datetime
 import pymongo
 
-with open('./data/bakery.json', 'r') as f:
+with open('../../data/bakery.json', 'r') as f:
     r = json.load(f)
 
 mongo = pymongo.MongoClient()
